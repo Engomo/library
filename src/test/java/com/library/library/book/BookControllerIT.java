@@ -18,15 +18,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Sql(statements = "delete from books")
 public class BookControllerIT {
 
-    BookDto book;
+    BookDto book1;
+    BookDto book2;
 
     @Autowired
     TestRestTemplate template;
 
     @BeforeEach
     void setUp() {
-        book = template.postForObject("/api/books", new CreateBookCommand("Férfi", "Csernus Imre"), BookDto.class);
-        template.postForObject("/api/books", new CreateBookCommand("Nő", "Csernus Imre"), BookDto.class);
+        book1 = template.postForObject("/api/books", new CreateBookCommand("Férfi", "Csernus Imre"), BookDto.class);
+        book2 = template.postForObject("/api/books", new CreateBookCommand("Nő", "Csernus Imre"), BookDto.class);
     }
 
     @Test
@@ -51,7 +52,7 @@ public class BookControllerIT {
 
         @Test
         void testDeleteBookById () {
-        long id = book.getId();
+        long id = book1.getId();
         template.delete("/api/books/" + id);
 
             List<BookDto> excepted = template.exchange("/api/books", HttpMethod.GET, null, new ParameterizedTypeReference<List<BookDto>>() {

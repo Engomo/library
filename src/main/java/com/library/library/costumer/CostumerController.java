@@ -26,4 +26,9 @@ public class CostumerController {
     public List<CostumerDto> getCostumers(){
         return service.getCostumers();
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteCostumerById(@PathVariable("id") long id) {
+        service.deleteCostumerById(id);
+    }
 }

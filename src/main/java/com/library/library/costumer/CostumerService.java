@@ -27,4 +27,8 @@ public class CostumerService {
                 .map(c -> modelMapper.map(c, CostumerDto.class))
                 .collect(Collectors.toList());
     }
+
+    public void deleteCostumerById(long id) {
+        repository.deleteById(id);
+    }
 }
