@@ -1,3 +1,11 @@
+POST http://localhost:8080/api/costumers
+Content-Type: application/json
+
+{
+  "name": "Laci"
+}
+
+###
 GET http://localhost:8080/api/books
 Accept: application/json
 

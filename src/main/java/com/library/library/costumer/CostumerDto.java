@@ -18,12 +18,7 @@ public class CostumerDto {
 
     private Long id;
 
-
     private String name;
-
-
-    private LocalDate dateOfBirth;
-
 
     private List<BookDto> rentedBooks;
 }

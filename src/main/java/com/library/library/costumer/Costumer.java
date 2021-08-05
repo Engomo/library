@@ -35,4 +35,7 @@ public class Costumer {
         book.setCostumer(this);
     }
 
+    public Costumer(String name) {
+        this.name = name;
+    }
 }

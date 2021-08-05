@@ -25,8 +25,8 @@ public class Book {
     @Column
     private String author;
 
-    @Column
-    private boolean removable = true;
+    @Enumerated(value = EnumType.STRING)
+    private BookAvailability availability = BookAvailability.AVAILABLE;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Costumer costumer;
