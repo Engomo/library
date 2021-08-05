@@ -32,8 +32,8 @@ public class BookController {
         service.deleteBookById(id);
     }
 
-//    @PutMapping({"/id"})
-//    public BookDto rentBook(@PathVariable("id") long id, @RequestBody UpdateBookCommand command) {
-//        return service.rentBook(id, command);
-//    }
+    @PutMapping({"/{id}"})
+    public BookDto rentBook(@PathVariable("id") long id, @RequestBody UpdateBookCommand command) {
+        return service.rentBook(id, command);
+    }
 }

@@ -1,6 +1,7 @@
 package com.library.library.book;
 
 import com.library.library.costumer.Costumer;
+import com.library.library.costumer.CostumerRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ public class BookService {
     private ModelMapper modelMapper;
 
     private BookRepository repository;
+
+    private CostumerRepository costumerRepository;
 
     public BookDto addBook(CreateBookCommand command) {
     Book book = new Book(command.getTitle(), command.getAuthor());
@@ -33,13 +36,16 @@ public class BookService {
         repository.deleteById(id);
     }
 
-//    @Transactional
-//    public BookDto rentBook(long id, UpdateBookCommand command) {
-//        Book book = repository.findById(id)
-//                .orElseThrow(()-> new IllegalArgumentException("Book with id :" + id + "not found"));
-//        book.setAvailability(BookAvailability.NOT_AVAILABLE);
-//        book.setCostumer();
-//    }
+    @Transactional
+    public BookDto rentBook(long id, UpdateBookCommand command) {
+        Book book = repository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("Book with id :" + id + "not found"));
+        Costumer costumer = costumerRepository.findById(command.getCostumerId())
+                .orElseThrow(()-> new IllegalArgumentException("Costumer with id: " + command.getCostumerId() + "not found"));
+        book.setAvailability(BookAvailability.NOT_AVAILABLE);
+        book.setCostumer(costumer);
+        return modelMapper.map(book, BookDto.class);
+    }
 
 
 }
