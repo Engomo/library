@@ -1,5 +1,6 @@
-package com.library.library;
+package com.library.library.book;
 
+import com.library.library.costumer.Costumer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,8 +28,11 @@ public class Book {
     @Column
     private boolean removable = true;
 
-    @ManyToOne
-    @JoinColumn(name = "costumer_id", nullable = false)
-    @ToString.Exclude
+    @ManyToOne(cascade = CascadeType.ALL)
     private Costumer costumer;
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
 }
