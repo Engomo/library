@@ -1,6 +1,6 @@
 package com.library.library.costumer;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,6 @@ public class CostumerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CostumerDto createCostumer(@RequestBody CreateCostumerCommand command) {
-        System.out.println(command.getName());
         return service.createCostumer(command);
     }
 
