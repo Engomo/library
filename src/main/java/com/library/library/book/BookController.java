@@ -26,4 +26,9 @@ public class BookController {
     public List<BookDto> getBooks () {
         return service.getBooks();
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteBookById(@PathVariable("id") long id) {
+        service.deleteBookById(id);
+    }
 }

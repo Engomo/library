@@ -24,8 +24,9 @@ public class BookControllerIT {
     TestRestTemplate template;
 
     @BeforeEach
-            void setUp(){
-
+    void setUp() {
+        book = template.postForObject("/api/books", new CreateBookCommand("Férfi", "Csernus Imre"), BookDto.class);
+        template.postForObject("/api/books", new CreateBookCommand("Nő", "Csernus Imre"), BookDto.class);
     }
 
     @Test
@@ -38,9 +39,6 @@ public class BookControllerIT {
     @Test
     void testGetBooks() {
 
-        template.postForObject("/api/books", new CreateBookCommand("Férfi", "Csernus Imre"), BookDto.class);
-        template.postForObject("/api/books", new CreateBookCommand("Nő", "Csernus Imre"), BookDto.class);
-
         List<BookDto> excepted = template.exchange("/api/books", HttpMethod.GET, null, new ParameterizedTypeReference<List<BookDto>>() {
         }).getBody();
 
@@ -48,5 +46,20 @@ public class BookControllerIT {
         assertThat(excepted)
                 .extracting(BookDto::getTitle)
                 .containsExactly("Férfi", "Nő");
+    }
+
+
+        @Test
+        void testDeleteBookById () {
+        long id = book.getId();
+        template.delete("/api/books/" + id);
+
+            List<BookDto> excepted = template.exchange("/api/books", HttpMethod.GET, null, new ParameterizedTypeReference<List<BookDto>>() {
+            }).getBody();
+
+            assertEquals(1, excepted.size());
+            assertThat(excepted)
+                    .extracting(BookDto::getTitle)
+                    .containsExactly("Nő");
     }
 }

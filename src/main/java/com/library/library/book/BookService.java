@@ -26,4 +26,8 @@ public class BookService {
                 .map(b -> modelMapper.map(b, BookDto.class))
                 .collect(Collectors.toList());
     }
+
+    public void deleteBookById(long id) {
+        repository.deleteById(id);
+    }
 }
