@@ -31,4 +31,9 @@ public class CostumerController {
     public void deleteCostumerById(@PathVariable("id") long id) {
         service.deleteCostumerById(id);
     }
+
+    @GetMapping("/{id}")
+    public CostumerDto getCostumerById(@PathVariable("id") long id) {
+       return service.getCostumerById(id);
+    }
 }

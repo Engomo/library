@@ -31,4 +31,10 @@ public class CostumerService {
     public void deleteCostumerById(long id) {
         repository.deleteById(id);
     }
+
+    public CostumerDto getCostumerById(long id) {
+       Costumer costumer = repository.findById(id)
+       .orElseThrow(()-> new IllegalArgumentException("Costumer by id: " + id + " not found."));
+       return modelMapper.map(costumer, CostumerDto.class);
+    }
 }

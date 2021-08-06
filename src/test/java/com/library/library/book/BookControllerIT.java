@@ -1,5 +1,7 @@
 package com.library.library.book;
 
+import com.library.library.costumer.CostumerDto;
+import com.library.library.costumer.CreateCostumerCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ public class BookControllerIT {
 
     BookDto book1;
     BookDto book2;
+    CostumerDto costumer;
 
     @Autowired
     TestRestTemplate template;
@@ -28,6 +31,7 @@ public class BookControllerIT {
     void setUp() {
         book1 = template.postForObject("/api/books", new CreateBookCommand("Férfi", "Csernus Imre"), BookDto.class);
         book2 = template.postForObject("/api/books", new CreateBookCommand("Nő", "Csernus Imre"), BookDto.class);
+        costumer = template.postForObject("/api/costumers", new CreateCostumerCommand("Jack"), CostumerDto.class);
     }
 
     @Test
@@ -62,5 +66,14 @@ public class BookControllerIT {
             assertThat(excepted)
                     .extracting(BookDto::getTitle)
                     .containsExactly("Nő");
+    }
+
+    @Test
+    void testRentBook() {
+        template.put("/api/books/" + book1.getId(), new UpdateBookCommand(costumer.getId(),book1.getAvailability()));
+
+        costumer = template.getForObject("/api/costumers/" + costumer.getId(), CostumerDto.class);
+
+        assertEquals(1, costumer.getRentedBooks().size());
     }
 }
